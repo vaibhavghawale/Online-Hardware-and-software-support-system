@@ -37,6 +37,6 @@ public class RegisterEngineerUseCase1 {
 		
 		String result=dao.registerEngineer(engineer);
 		System.out.println(result);
-		
+		sc.close();
 	}
 }

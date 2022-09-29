@@ -1,10 +1,12 @@
 package com.project.deo;
-
 import com.project.bean.Engineer;
+import com.project.exceptions.EngineerException;
 
 public interface EngineerDao {
 
 	public String registerEngineer(Engineer engineer);
+	
+	public Engineer loginEngineer(String EngUserName, String EngPassword)throws EngineerException;
 	
 }
 
