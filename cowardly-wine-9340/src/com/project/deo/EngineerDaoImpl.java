@@ -192,7 +192,7 @@ public class EngineerDaoImpl implements EngineerDao {
 		
 		try(Connection conn=DButil.provideConnection()) {
 			
-			PreparedStatement ps=conn.prepareStatement("select e.engid, e.engname,e.engcategory,p.pname from engineer INNER JOIN problems p INNER JOIN employee_engineer ee ON e.engid=ee.reid AND p.pid=ee.rpid AND p.pname=?");
+			PreparedStatement ps=conn.prepareStatement("select e.engid, e.engname,e.engcategory,p.pname from engineer e INNER JOIN problems p INNER JOIN employee_engineer ee ON e.engid=ee.reid AND p.pid=ee.rpid AND p.pname=?");
 			
 			ps.setString(1,pname);
 			
@@ -225,4 +225,69 @@ public class EngineerDaoImpl implements EngineerDao {
 		
 		return dtos;
 	}
-}
+
+	@Override
+	public String deleteEngineer(String name) throws EngineerException {
+     
+       String message = "Engineer is not found";
+		
+		
+		try(Connection conn = DButil.provideConnection()) {
+			
+			PreparedStatement ps = conn.prepareStatement("delete from Engineer where engname = ?");
+			
+			ps.setString(1, name);
+			
+			int x = ps.executeUpdate();
+			
+			if(x>0) {
+				message = (name+" engineer is terminated from system");
+			}
+			
+		} catch (Exception e) {
+			
+			
+			
+		}
+		
+		
+		return message;
+	}
+
+	@Override
+	public String changePassword(String username, String password, String newpassword) throws EngineerException {
+       
+		String message = "Not Change";
+		
+        try(Connection conn = DButil.provideConnection()) {
+		
+		
+		PreparedStatement ps= conn.prepareStatement("update Engineer set Engpassword= ? where EngUserName= ? AND EngPassword= ? ");			
+		
+		ps.setString(1, newpassword);
+		ps.setString(2, username);
+		ps.setString(3, password);
+		
+		int x = ps.executeUpdate();
+		
+		if(x>0) {
+			
+			message = "Your password change successfully !";
+		}
+		else {
+			
+			throw new EngineerException("Invalid Username or password.. ");
+			
+		}
+		
+    } catch (SQLException e) {
+		throw new  EngineerException(e.getMessage());
+	}
+	
+	
+	
+	return message;
+	}
+	}
+
+	

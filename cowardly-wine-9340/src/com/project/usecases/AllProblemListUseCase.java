@@ -22,7 +22,18 @@ public static void main(String[] args) {
 		try {
 			
 			List<Problem> problems=dao.getAllProblemList();
-			problems.forEach(s -> System.out.println(s));
+			problems.forEach(e -> {
+				
+				System.out.println("Problem id is : "+e.getPid());
+				System.out.println("Problem name is : "+e.getPname());
+				System.out.println("Problem category is : "+e.getPcategory());
+				System.out.println("Problem status is : "+e.getPstatus());
+				
+				
+				
+				System.out.println("=================================");
+				
+			});
 			
 		} catch (ProblemException e) {
 			// TODO: handle exception

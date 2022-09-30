@@ -13,4 +13,9 @@ public interface ProblemDao {
 	
 	public List<Problem> getAllProblemList()throws ProblemException;
 	
+	public String updateStatus(String sts,int id) throws ProblemException;
+	
+//	public String getAssignProblemList(String pname)throws ProblemException;
+	
+//	public String changePassword(String username, String password, String newpassword) throws ProblemException;
 }

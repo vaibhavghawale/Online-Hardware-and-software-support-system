@@ -9,7 +9,9 @@ import java.util.List;
 
 import com.mysql.cj.protocol.Resultset;
 import com.project.bean.Employee;
+import com.project.bean.Problem;
 import com.project.exceptions.EmployeeException;
+import com.project.exceptions.EngineerException;
 import com.project.utility.DButil;
 
 public class EmployeeDaoImlp implements EmployeeDao {
@@ -121,12 +123,79 @@ public class EmployeeDaoImlp implements EmployeeDao {
 		return employees;
 		
 	}
-}
+
+	@Override
+	public String changePassword(String username, String password, String newpassword) throws EmployeeException {
+
+		String message = "Password Not Updated";
+		
+        try(Connection conn = DButil.provideConnection()) {
+		
+		
+		PreparedStatement ps= conn.prepareStatement("update employee set emppassword= ? where empUserName= ? AND empPassword= ? ");			
+		
+		ps.setString(1, newpassword);
+		ps.setString(2, username);
+		ps.setString(3, password);
+		
+		int x = ps.executeUpdate();
+		
+		if(x>0) {
+			
+			message = "Your password change successfully !";
+		}
+		else {
+			
+			throw new EmployeeException("Invalid Username or password.. ");
+			
+		}
+		
+    } catch (SQLException e) {
+		throw new  EmployeeException(e.getMessage());
+	}
 	
-//	 -> empID int primary key auto_increment,
-//	    -> empName varchar(15),
-//	    -> empUserName varchar(15),
-//	    -> empPassword varchar(12)
-//	    -> );
-//	
 	
+	
+	return message;
+	}
+
+//	@Override
+//	public List<Problem> getAssignProblemList(String pname) throws EmployeeException {
+//		
+//		List<Problem> problems= new ArrayList<>();
+//		
+//		try(Connection conn=DButil.provideConnection()) {
+//			
+//		PreparedStatement ps=	conn.prepareStatement("select e.engid, e.engname,e.engcategory,p.pname,p.status from engineer e INNER JOIN problems p INNER JOIN employee_engineer ee ON e.engid=ee.reid AND p.pid=ee.rpid AND p.pname =?;");
+//			
+//		ResultSet	rs =ps.executeQuery();
+//		
+//		while(rs.next()) {
+//			
+//			if(rs.next()) {
+//				
+//				int id= rs.getInt("pid");
+//				String n= rs.getString("pname");
+//				String c= rs.getString("pcategory");
+//				String s=rs.getString("status");
+//				
+//		   Problem	problem=new Problem(id,n,c, s);		
+//		   problems.add(problem);
+//		}
+//			
+//			
+//		} }catch (SQLException e) {
+//			// TODO: handle exception
+//			
+//			throw new EmployeeException(e.getMessage());
+//			
+//		}
+//		
+//		if(problems.size()==0) {
+//			throw new EmployeeException("No Problem Found");
+//		}
+//		
+//		return problems;
+//	}
+	
+}	

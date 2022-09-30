@@ -5,17 +5,24 @@ public class Problem {
 	private int pid;
 	private String pname;
 	private String pcategory;
+	private String pstatus;
 	
 	public Problem() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Problem(int pid, String pname, String pcategory) {
+	
+	
+	public Problem(int pid, String pname, String pcategory, String pstatus) {
 		super();
 		this.pid = pid;
 		this.pname = pname;
 		this.pcategory = pcategory;
+		this.pstatus = pstatus;
 	}
+
+
+
 	public String getPcategory() {
 		return pcategory;
 	}
@@ -37,8 +44,18 @@ public class Problem {
 
 	@Override
 	public String toString() {
-		return "Problem [pid=" + pid + ", pname=" + pname + ", pcategory=" + pcategory + "]";
+		return "Problem [pid=" + pid + ", pname=" + pname + ", pcategory=" + pcategory + ", pstatus=" + pstatus + "]";
 	}
+
+	public String getPstatus() {
+		return pstatus;
+	}
+
+	public void setPstatus(String pstatus) {
+		this.pstatus = pstatus;
+	}
+
+	
 	
 	
 	

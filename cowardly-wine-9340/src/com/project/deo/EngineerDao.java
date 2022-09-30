@@ -23,6 +23,10 @@ public interface EngineerDao {
 	
 	
 	public List<EngineerDTO> getAlEnginnerAssignProblem(String pname)throws ProblemException;
+
+	public String deleteEngineer(String name) throws EngineerException;
+
+	public String changePassword(String username, String password, String newpassword) throws EngineerException;
 	
 }
 

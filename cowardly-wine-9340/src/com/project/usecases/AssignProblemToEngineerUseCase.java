@@ -11,10 +11,10 @@ public class AssignProblemToEngineerUseCase {
 		
         Scanner sc= new Scanner(System.in);
 		
-		System.out.println("Enter the pid");
+		System.out.println("Enter the problemid");
 		int pid= sc.nextInt();
 
-		System.out.println("Enter the roll");
+		System.out.println("Enter the engid");
 		int engid= sc.nextInt();
 
 		

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import com.project.bean.Problem;
+import com.project.exceptions.EngineerException;
 import com.project.exceptions.ProblemException;
 import com.project.utility.DButil;
 
@@ -56,9 +57,9 @@ public class ProblemDaoImpl implements ProblemDao {
 				int id= rs.getInt("pid");
 				String n= rs.getString("pname");
 				String c= rs.getString("pcategory");
+				String s=rs.getString("status");
 				
-				
-		   Problem	problem=new Problem(id,n,c);		
+		   Problem	problem=new Problem(id,n,c, s);		
 		   problems.add(problem);
 		}
 			
@@ -76,4 +77,35 @@ public class ProblemDaoImpl implements ProblemDao {
 		
 		return problems;
 	}
+
+	@Override
+	public String updateStatus(String status, int pid) throws ProblemException {
+		
+		String message = "Updated";
+		
+        try(Connection conn= DButil.provideConnection()) {
+			
+			PreparedStatement ps= conn.prepareStatement("update problems set status = ? where pid= ?");
+			ps.setString(1, status);
+			ps.setInt(2, pid);
+			
+			
+			int x = ps.executeUpdate();
+			
+			if(x>0) {
+				message = "Proble Status Updated....";
+			}
+			
+			
+        }catch (SQLException e) {
+       	 
+			throw new ProblemException(e.getMessage());
+		}
+		
+		
+		return message;
+		
+		
+	}
+
 	}
