@@ -10,8 +10,10 @@ import java.util.List;
 import com.mysql.cj.protocol.Resultset;
 import com.project.bean.Employee;
 import com.project.bean.Problem;
+import com.project.bean.ProblemPro;
 import com.project.exceptions.EmployeeException;
 import com.project.exceptions.EngineerException;
+import com.project.exceptions.ProblemException;
 import com.project.utility.DButil;
 
 public class EmployeeDaoImlp implements EmployeeDao {
@@ -159,43 +161,52 @@ public class EmployeeDaoImlp implements EmployeeDao {
 	return message;
 	}
 
-//	@Override
-//	public List<Problem> getAssignProblemList(String pname) throws EmployeeException {
-//		
-//		List<Problem> problems= new ArrayList<>();
-//		
-//		try(Connection conn=DButil.provideConnection()) {
-//			
-//		PreparedStatement ps=	conn.prepareStatement("select e.engid, e.engname,e.engcategory,p.pname,p.status from engineer e INNER JOIN problems p INNER JOIN employee_engineer ee ON e.engid=ee.reid AND p.pid=ee.rpid AND p.pname =?;");
-//			
-//		ResultSet	rs =ps.executeQuery();
-//		
-//		while(rs.next()) {
-//			
-//			if(rs.next()) {
-//				
-//				int id= rs.getInt("pid");
-//				String n= rs.getString("pname");
-//				String c= rs.getString("pcategory");
-//				String s=rs.getString("status");
-//				
-//		   Problem	problem=new Problem(id,n,c, s);		
-//		   problems.add(problem);
-//		}
-//			
-//			
-//		} }catch (SQLException e) {
-//			// TODO: handle exception
-//			
-//			throw new EmployeeException(e.getMessage());
-//			
-//		}
-//		
-//		if(problems.size()==0) {
-//			throw new EmployeeException("No Problem Found");
-//		}
-//		
-//		return problems;
-//	}
+	@Override
+	public List<ProblemPro> getAllDetailsProble(String pname) throws EmployeeException {
+
+
+        List<ProblemPro> list= new ArrayList<>();
+		
+		try(Connection conn=DButil.provideConnection()) {
+			
+		PreparedStatement ps=conn.prepareStatement("select e.engid,p.pid, e.engname,p.pname,e.engcategory,p.status from engineer e INNER JOIN problems p INNER JOIN employee_engineer ee ON e.engid=ee.reid AND p.pid=ee.rpid AND p.pname =?;");
+		ps.setString(1, pname);	
+		ResultSet	rs =ps.executeQuery();
+		
+		while(rs.next()) {
+			
+			if(rs.next()) {
+				
+				int eid= rs.getInt("engid");
+				int pid= rs.getInt("pid");
+				String n= rs.getString("engname");
+				String pn=rs.getString("pname");
+				String c= rs.getString("engcategory");
+				String s=rs.getString("status");
+				
+		   ProblemPro	problem=new ProblemPro(eid, pid,n,pn, c, s);		
+		   list.add(problem);
+		}
+			
+			
+		} }catch (SQLException e) {
+			// TODO: handle exception
+			
+			throw new EmployeeException(e.getMessage());
+			
+		}
+		
+		if(list.size()==0) {
+			throw new EmployeeException("No Problem Found");
+		}
+		
+		return list;
+	}
+
+
+
+
+
+
 	
 }	

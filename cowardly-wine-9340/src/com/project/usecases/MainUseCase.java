@@ -479,7 +479,25 @@ public class MainUseCase {
 							    //Case statements  
 							    case 1:{
 							    	   while(true) {
-							    		System.out.println("Sorry Service Have som problem Now...We will Correct soon...");
+							    		
+							    		System.out.println("Enter Username:");
+							   			String username = sc.next();
+							   			
+							   			System.out.println("Enter Password:");
+							   			String password = sc.next();
+							   			
+							   			HodDao dao=new HodDaoImpl();
+							   			
+							   			try {
+							   				String hod= dao.loginHod(username, password);
+							   			
+							   		 		System.out.println("Login succesfull.... :");
+							   		 	
+							   		 	
+							   			}catch (HodException e) {
+							   				System.out.println(e.getMessage());
+							   			}   
+							    		   
 							    		
 							    		System.out.println("Enter 'y' continue see the status or 'n' to other services ");
 							        	String opt=sc.next();

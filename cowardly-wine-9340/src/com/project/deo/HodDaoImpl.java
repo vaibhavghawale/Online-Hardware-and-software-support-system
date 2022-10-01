@@ -12,7 +12,9 @@ public class HodDaoImpl implements HodDao{
 
 	@Override
 	public String loginHod(String username, String password) throws HodException {
-String message = "no ligin";
+   
+		
+		String message = "no ligin";
 		
 		
         try(Connection conn = DButil.provideConnection()) {
