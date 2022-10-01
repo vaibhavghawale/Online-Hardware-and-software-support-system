@@ -2,7 +2,7 @@
 
 
 <h1 align="center">Online Hardware and software support system</h1>
-<h3>Project Description:</h3>
+<h3>Project Description:</h3> 
 <p>The system will be available on an online platform for 24x7 access to the employees, the engineers, the Head of the Department and the administration. It Helps keeping your IT staff productive with fast, accurate, remote technical support for your System environment. It provides defect support for a broad range of Products running on System hardware.<p/>
 <p>Factors to consider include cost of downtime, skills, retention, overheads, customer satisfaction, and many others.</p>
 
@@ -15,6 +15,9 @@ employee must report to this department. Engineers from this department take car
 	<h4 style="font-weight: bold;">1. HOD</h4>
 	<h4 style="font-weight: bold;">2. Engineer</h4>
 	<h4 style="font-weight: bold;">3. Employee</h4>
+	
+<img style="width: 100%;" src="https://github.com/thecodervaibhav/cowardly-wine-9340/blob/main/m.png" alt="">
+
 
 <h3>Roles for the HOD:</h3>
 <p>•	Login into the system </p>
@@ -107,6 +110,15 @@ Step2: Create a All reruired tables:
    	  FOREIGN KEY (rpid) REFERENCES problems(pid),
   	   FOREIGN KEY (reid) REFERENCES engineer (Engid)
    	  );
+
+
+ <div style="display: grid; grid-template-columns: repeat(2,1fr); " >
+  <img style="width: 200px;" src="https://github.com/thecodervaibhav/cowardly-wine-9340/blob/main/1.png" alt="">
+  <img style="width: 200px;" src="https://github.com/thecodervaibhav/cowardly-wine-9340/blob/main/2.png" alt="">
+  <img style="width: 200px;" src="https://github.com/thecodervaibhav/cowardly-wine-9340/blob/main/3.png" alt="">
+  <img style="width: 200px;" src="https://github.com/thecodervaibhav/cowardly-wine-9340/blob/main/4.png" alt="">
+ </div>
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 Step 3: Create a Separated Unitily package fro making a database connection...
