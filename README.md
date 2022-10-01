@@ -55,3 +55,215 @@ employee must report to this department. Engineers from this department take car
 <h2>Responsibilities<h2>
 
 <h4>To create user undestable Application where All functionalities proper work with Mysql query where sorting filtering and manupualtiong a any table data very easy.And connnectinng jdbc to Mysql for more dynamic maintain Relationship between all tables.</h4>
+
+<h1>All Steps Are as Follows: </h1>
+
+Step 1: Creating a required Database.
+	
+	
+	Create a database sb101_project;
+	use sb101_project;
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Step2: Create a All reruired tables:
+
+
+
+	1. create HOD table
+	(
+	username varchar(15),
+	password varchar(15)
+	);
+	
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	2.create table engineer
+	  (
+	  EngId primary key auto increment,
+	  EngName varchar(15),
+	  EngUserName varchar(15) unique,
+	  EngPasswor varchar(15),
+	  EngCategory varchar(20)
+	  );
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	3.create table Problems
+	(
+	pid int primary key auto_increment,
+	pname varchar(20),
+	pcategory varchar(15)
+	);
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	  **Relation between enployee and engineer and problems;
+
+          4.create table employee_engineer
+   	  (
+  	   rpid int,
+   	  reid int,
+   	  FOREIGN KEY (rpid) REFERENCES problems(pid),
+  	   FOREIGN KEY (reid) REFERENCES engineer (Engid)
+   	  );
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+Step 3: Create a Separated Unitily package fro making a database connection...
+
+	1. DButil
+	
+	Class.forName("com.mysql.cj.jdbc.Driver");
+		
+        String url="jdbc:mysql://localhost:3306/sb101_project";
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Step 3: Create a Bean Classes
+
+	1. Hod.
+	2. Engineer.
+	3. Employee.
+	4. EmployeePro.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Step 3: Create a DAO Interfaces and its Implementation class.
+
+	1. HodDao (I).
+	   HodDaoImpl (C).
+
+	2. EngineerDao (I).
+	   EngineerDaoImpl (C).
+
+	3. EmployeeDao (I).
+	   EmployeeDaoImpl (C).
+
+        4. ProblemsDao (I).
+	   ProblemsDaoImpl (C).
+	
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Step 4: Create a Separated Exception classes.
+
+	1. HodException (C).
+	
+
+	2. EngineerException (C).
+	 
+
+	3. EmployeeException (C).
+	  
+
+        4. ProblemsException (C).
+	
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Step 5: Create a Separated use cases classes.
+
+	I. Use Cases for HOD...	
+
+	1. use Cases for HOD:
+	   **HodLoginUseCase...
+
+	   a. username : admin.
+	   b. password : admin123..
+
+	2. Register a new Engineer with a username(email) and password and the category (Hardware/software)
+	   **RegisterEngineerUseCase1
+	   **Query:  PreparedStatement ps=conn.prepareStatement("insert into Employee(engName,engUserName,engPassword) values(?,?,?)");
+
+	   a. username (email) : HODchoice
+	   b. password         : HODchoice
+	   
+	3.Can see a List of all the Registered Engineers.
+	   **AllEngineeerDetailsUseCase
+	   **Query:  PreparedStatement ps=conn.prepareStatement("select * from engineer");
+	
+        4.Can Delete any Engineers from the system
+	   **DeleteEnginnerUseCase
+	   **Query: PreparedStatement ps = conn.prepareStatement("delete from Engineer where engname = ?");
+	
+	5.Can able to see all the raised problems.
+	   **	
+	   **Query:PreparedStatement ps=conn.prepareStatement("select * from problems");
+			 
+	
+	6.Can assign any problem to any Engineer.
+           **AssignProblemToEngineerUseCase
+	   **Query: PreparedStatement ps=conn.prepareStatement("select * from engineer where engid=?");
+	
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	II. Use Cases for Engineer...	
+
+	1.Each engineer has an account by which they can log in. (credentials given by the HOD)
+	***EngineerLoginUseCase
+	Query :PreparedStatement ps =conn.prepareStatement("select * from Employee where empUserName=? AND empPassword=?");
+		 
+
+	2.Engineer can view the problem assigned to him by HOD.
+	***GetEngineerToAssignProblem
+	Query : PreparedStatement ps=conn.prepareStatement("select e.engid,p.pid, e.engname,p.pname,e.engcategory,p.status from engineer e INNER JOIN problems p INNER JOIN employee_engineer ee ON e.engid=ee.reid AND p.pid=ee.rpid AND p.pname =?;");
+		
+		
+	3.Engineer can update the status of the problem addressed by him. i. e. whether it is solved or anything.
+	***UpdateProblemStatusUseCase.
+	Query :PreparedStatement ps= conn.prepareStatement("update problems set status = ? where pid= ?");
+			 
+		
+	
+	4.They can see a list of all the problems attended by him/her.
+	***GetListOfEmployeeAssignProblemUseCase.
+	Query : PreparedStatement ps=conn.prepareStatement("select e.engid, e.engname,e.engcategory,p.pname from engineer e INNER JOIN problems p INNER JOIN employee_engineer ee ON e.engid=ee.reid AND p.pid=ee.rpid AND p.pname=?");
+			
+		
+		
+	5.Engineer can change his password.
+	***UpdatePasswordToEngineerUseCase
+	Query :PreparedStatement ps= conn.prepareStatement("update Engineer set Engpassword= ? where EngUserName= ? AND EngPassword= ? ");			
+		 
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	II. Use Cases for Engineer...	
+
+
+	1.Employee can register himself with his username and password.
+	***RegisterEmployeeUseCase1
+	***Query :PreparedStatement ps=conn.prepareStatement("insert into Employee(empName,empUserName,empPassword) values(?,?,?)");
+	
+
+	2.Each employee has their account in the system with which they can log in
+	***EmployeeLoginUseCase
+	***Query :PreparedStatement ps =conn.prepareStatement("select * from Employee where empUserName=? AND empPassword=?");
+		
+	
+	3.Employee can register any complaint (hardware/software) through the system. After registering the complaint a complaint id is generated by the system.
+	***CreateProblemUseCase
+	***Query :PreparedStatement ps=conn.prepareStatement("insert into Problems(pname,pcategory)values(?,?)");
+		
+	
+	4.Employees can see the status of their problem by using complaint id. Status means they can check who (engineer) is assigned to his problem.
+	***UpdateProblemStatusUseCase
+	***Query :PreparedStatement ps=	conn.prepareStatement("select * from problems");
+		
+
+	5.They can see all complaints history raised by him/her.
+	***GetEngineerToAssignProblem
+	***Query :PreparedStatement ps=conn.prepareStatement("select e.engid,p.pid, e.engname,p.pname,e.engcategory,p.status from engineer e INNER JOIN problems p INNER JOIN employee_engineer ee ON e.engid=ee.reid AND p.pid=ee.rpid AND p.pname =?;");
+		
+
+	6.Employee can change his/her password.
+	***AllProblemListUseCase
+	***Query :PreparedStatement ps= conn.prepareStatement("update employee set emppassword= ? where empUserName= ? AND empPassword= ? ");			
+		
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
